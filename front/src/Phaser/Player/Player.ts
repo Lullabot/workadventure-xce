@@ -27,6 +27,8 @@ export class Player extends Character implements CurrentGamerInterface {
 
         //the current player model should be push away by other players to prevent conflict
         this.getBody().setImmovable(false);
+
+        this.addCompanion();
     }
 
     moveUser(delta: number): void {
@@ -59,6 +61,11 @@ export class Player extends Character implements CurrentGamerInterface {
             moving = true;
         }
         moving = moving || activeEvents.get(UserInputEvent.JoystickMove);
+
+        if (this.companion) {
+            this.companion.step(delta);
+        }
+
         if (x !== 0 || y !== 0) {
             this.move(x, y);
             this.emit(hasMovedEventName, {moving, direction, x: this.x, y: this.y});
