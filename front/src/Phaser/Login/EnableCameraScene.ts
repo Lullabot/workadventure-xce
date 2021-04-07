@@ -240,7 +240,8 @@ export class EnableCameraScene extends Phaser.Scene {
     }
 
     update(time: number, delta: number): void {
-        this.pressReturnField.setVisible(!!(Math.floor(time / 500) % 2));
+        //this.pressReturnField.setVisible(!!(Math.floor(time / 500) % 2));
+        this.pressReturnField.setVisible(true);
 
         this.soundMeterSprite.setVolume(this.soundMeter.getVolume());
 

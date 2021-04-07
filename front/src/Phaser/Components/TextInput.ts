@@ -14,6 +14,7 @@ export class TextInput extends Phaser.GameObjects.BitmapText {
     private minUnderLineLength = 4;
     private underLine: Phaser.GameObjects.Text;
     private domInput = document.createElement('input');
+    private domHasFocus: boolean = false;
 
     constructor(scene: Phaser.Scene, x: number, y: number, maxLength: number, text: string,
                 onChange: (text: string) => void) {
@@ -48,6 +49,15 @@ export class TextInput extends Phaser.GameObjects.BitmapText {
             this.text = this.domInput.value;
             this.underLine.text = this.getUnderLineBody(this.text.length);
             onChange(this.text);
+        });
+
+        this.domInput.addEventListener('focus', (event) => {
+            this.domHasFocus = true;
+            this.underLine.setColor('#0000ff');
+        });
+        this.domInput.addEventListener('blur', (event) => {
+            this.domHasFocus = false;
+            this.underLine.setColor('#ffffff');
         });
 
         document.body.append(this.domInput);
@@ -86,5 +96,9 @@ export class TextInput extends Phaser.GameObjects.BitmapText {
     destroy(): void {
         super.destroy();
         this.domInput.remove();
+    }
+
+    hasFocus(): boolean {
+        return this.domHasFocus;
     }
 }
