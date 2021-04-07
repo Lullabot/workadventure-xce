@@ -16,11 +16,14 @@ enum LoginTextures {
 
 export class LoginScene extends ResizableScene {
     private nameInput!: TextInput;
+    private bagInput!: TextInput;
     private textField!: TextField;
+    private bagTextField!: TextField;
     private infoTextField!: TextField;
     private pressReturnField!: TextField;
     private logo!: Image;
     private name: string = '';
+    private bag: string = '';
 
     private mobileTapRectangle!: Phaser.GameObjects.Rectangle;
     constructor() {
@@ -28,11 +31,12 @@ export class LoginScene extends ResizableScene {
             key: LoginSceneName
         });
         this.name = gameManager.getPlayerName() || '';
+        this.bag = localUserStore.getBag() || '';
     }
 
     preload() {
         //this.load.image(LoginTextures.playButton, "resources/objects/play_button.png");
-        this.load.image(LoginTextures.icon, "resources/logos/tcm_full.png");
+        //this.load.image(LoginTextures.icon, "resources/logos/tcm_full.png");
         // Note: arcade.png from the Phaser 3 examples at: https://github.com/photonstorm/phaser3-examples/tree/master/public/assets/fonts/bitmap
         this.load.bitmapFont(LoginTextures.mainFont, 'resources/fonts/arcade.png', 'resources/fonts/arcade.xml');
     }
@@ -53,20 +57,35 @@ export class LoginScene extends ResizableScene {
             .on('pointerdown', () => {
                 this.nameInput.focus();
             })
+
+        this.bagInput = new TextInput(this, this.game.renderer.width / 2, 150, 20, this.bag,(text: string) => {
+            this.bag = text;
+            localUserStore.setBag(text);
+        })
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.bagInput.focus();
+            });
+        this.bagTextField = new TextField(this, this.game.renderer.width / 2, 120, 'Enter your Swag Bag ID:')
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.bagInput.focus();
+            })
+        this.nameInput.focus();
         // For mobile purposes - we need a big enough touchable area.
         this.mobileTapRectangle = this.add.rectangle(
             this.game.renderer.width / 2,
-            130,
+            200,
             this.game.renderer.width / 2,
             60,
         ).setInteractive()
         .on('pointerdown', () => {
             this.login(this.name)
         })
-        this.pressReturnField = new TextField(this, this.game.renderer.width / 2, 130, 'Touch here\n\n or \n\nPress enter to start')
+        this.pressReturnField = new TextField(this, this.game.renderer.width / 2, 200, 'Touch here\n\n or \n\nPress enter to start')
 
-        this.logo = new Image(this, this.game.renderer.width - 30, this.game.renderer.height - 20, LoginTextures.icon);
-        this.add.existing(this.logo);
+        //this.logo = new Image(this, this.game.renderer.width - 30, this.game.renderer.height - 20, LoginTextures.icon);
+        //this.add.existing(this.logo);
 
         const infoText = "Commands: \n - Arrows or W, A, S, D to move\n - SHIFT to run";
         this.infoTextField = new TextField(this, 10, this.game.renderer.height - 35, infoText, false);
@@ -83,7 +102,8 @@ export class LoginScene extends ResizableScene {
         if (this.name == '') {
             this.pressReturnField?.setVisible(false);
         } else {
-            this.pressReturnField?.setVisible(!!(Math.floor(time / 500) % 2));
+            //this.pressReturnField?.setVisible(!!(Math.floor(time / 500) % 2));
+            this.pressReturnField?.setVisible(true);
         }
     }
 
@@ -98,11 +118,13 @@ export class LoginScene extends ResizableScene {
 
     public onResize(ev: UIEvent): void {
         this.textField.x = this.game.renderer.width / 2;
+        this.bagTextField.x = this.game.renderer.width / 2;
         this.nameInput.setX(this.game.renderer.width / 2 - 64);
+        this.bagInput.setX(this.game.renderer.width / 2 - 64);
         this.pressReturnField.x = this.game.renderer.width / 2;
         this.mobileTapRectangle.x = this.game.renderer.width / 2;
-        this.logo.x = this.game.renderer.width - 30;
-        this.logo.y = this.game.renderer.height - 20;
+        //this.logo.x = this.game.renderer.width - 30;
+        //this.logo.y = this.game.renderer.height - 20;
         this.infoTextField.y = this.game.renderer.height - 35;
     }
 

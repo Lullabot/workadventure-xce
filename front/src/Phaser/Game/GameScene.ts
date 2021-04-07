@@ -705,6 +705,25 @@ export class GameScene extends ResizableScene implements CenterListener {
         }
     }
 
+    private addToInventory(token: string|number|boolean|undefined): void {
+        const bagId: string = localUserStore.getBag();
+        if (token !== undefined) {
+            const inventoryUrl = `https://inventory.drupalcon.lullabot.com/api/items/${bagId}/${token as string}`;
+            fetch(inventoryUrl, {
+                method: 'GET',
+                mode: 'no-cors',
+            })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    }
+
+    public openWebsite(website: string) {
+        coWebsiteManager.loadCoWebsite(website, this.MapUrlFile);
+        layoutManager.removeActionButton('openWebsite', this.userInputManager);
+    }
+
     private triggerOnMapLayerPropertyChange(){
         this.gameMap.onPropertyChange('exitSceneUrl', (newValue, oldValue) => {
             if (newValue) this.onMapExit(newValue as string);
@@ -799,6 +818,20 @@ export class GameScene extends ResizableScene implements CenterListener {
             } else {
                 iframeListener.sendEnterEvent(newValue as string);
             }
+        });
+
+        this.gameMap.onPropertyChange('openInventory', (newValue, oldValue, allProps) => {
+            if (newValue === undefined || newValue === false || newValue === '') {
+                layoutManager.removeActionButton('openWebsite', this.userInputManager);
+                coWebsiteManager.closeCoWebsite();
+            } else {
+                coWebsiteManager.loadCoWebsite(`https://inventory.drupalcon.lullabot.com/bag/${localUserStore.getBag()}`, this.MapUrlFile, allProps.get('openWebsiteAllowApi') as boolean | undefined, allProps.get('openWebsitePolicy') as string | undefined);
+                layoutManager.removeActionButton('openWebsite', this.userInputManager);
+            }
+        });
+
+        this.gameMap.onPropertyChange('getItem', (newValue, oldValue) => {
+            this.addToInventory(newValue);
         });
     }
 

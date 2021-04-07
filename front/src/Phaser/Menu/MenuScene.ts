@@ -259,6 +259,10 @@ export class MenuScene extends Phaser.Scene {
         event.preventDefault();
 
         switch ((event?.target as HTMLInputElement).id) {
+            case 'inventory':
+                this.closeSideMenu();
+                gameManager.getCurrentGameScene(this).openWebsite(`https://inventory.drupalcon.lullabot.com/bag/${localUserStore.getBag()}`);
+                break;
             case 'changeNameButton':
                 this.closeSideMenu();
                 gameManager.leaveGame(this, LoginSceneName, new LoginScene());

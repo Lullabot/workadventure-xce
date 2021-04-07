@@ -1,6 +1,7 @@
 import {LocalUser} from "./LocalUser";
 
 const playerNameKey =           'playerName';
+const bagKey =                  'bagId';
 const selectedPlayerKey =       'selectedPlayer';
 const customCursorPositionKey = 'customCursorPosition';
 const characterLayersKey =      'characterLayers';
@@ -26,6 +27,13 @@ class LocalUserStore {
     }
     getName(): string {
         return localStorage.getItem(playerNameKey) || '';
+    }
+
+    setBag(id:string): void {
+        localStorage.setItem(bagKey, id);
+    }
+    getBag(): string {
+        return localStorage.getItem(bagKey) || '';
     }
 
     setPlayerCharacterIndex(playerCharacterIndex: number): void {
