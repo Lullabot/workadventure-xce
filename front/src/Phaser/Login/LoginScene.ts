@@ -36,7 +36,7 @@ export class LoginScene extends ResizableScene {
 
     preload() {
         //this.load.image(LoginTextures.playButton, "resources/objects/play_button.png");
-        //this.load.image(LoginTextures.icon, "resources/logos/tcm_full.png");
+        this.load.image(LoginTextures.icon, "resources/logos/tcm_full.png");
         // Note: arcade.png from the Phaser 3 examples at: https://github.com/photonstorm/phaser3-examples/tree/master/public/assets/fonts/bitmap
         this.load.bitmapFont(LoginTextures.mainFont, 'resources/fonts/arcade.png', 'resources/fonts/arcade.xml');
     }
@@ -84,8 +84,8 @@ export class LoginScene extends ResizableScene {
         })
         this.pressReturnField = new TextField(this, this.game.renderer.width / 2, 200, 'Touch here\n\n or \n\nPress enter to start')
 
-        //this.logo = new Image(this, this.game.renderer.width - 30, this.game.renderer.height - 20, LoginTextures.icon);
-        //this.add.existing(this.logo);
+        this.logo = new Image(this, this.game.renderer.width - 30, this.game.renderer.height - 20, LoginTextures.icon);
+        this.add.existing(this.logo);
 
         const infoText = "Commands: \n - Arrows or W, A, S, D to move\n - SHIFT to run";
         this.infoTextField = new TextField(this, 10, this.game.renderer.height - 35, infoText, false);
@@ -123,8 +123,8 @@ export class LoginScene extends ResizableScene {
         this.bagInput.setX(this.game.renderer.width / 2 - 64);
         this.pressReturnField.x = this.game.renderer.width / 2;
         this.mobileTapRectangle.x = this.game.renderer.width / 2;
-        //this.logo.x = this.game.renderer.width - 30;
-        //this.logo.y = this.game.renderer.height - 20;
+        this.logo.x = this.game.renderer.width - 30;
+        this.logo.y = this.game.renderer.height - 20;
         this.infoTextField.y = this.game.renderer.height - 35;
     }
 
