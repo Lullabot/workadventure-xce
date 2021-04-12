@@ -825,7 +825,8 @@ export class GameScene extends ResizableScene implements CenterListener {
                 layoutManager.removeActionButton('openWebsite', this.userInputManager);
                 coWebsiteManager.closeCoWebsite();
             } else {
-                coWebsiteManager.loadCoWebsite(`https://inventory.drupalcon.lullabot.com/bag/${localUserStore.getBag()}`, this.MapUrlFile, allProps.get('openWebsiteAllowApi') as boolean | undefined, allProps.get('openWebsitePolicy') as string | undefined);
+                let bagUrl = localUserStore.getBag().length ? `https://inventory.drupalcon.lullabot.com/bag/${localUserStore.getBag()}` : 'https://inventory.drupalcon.lullabot.com';
+                coWebsiteManager.loadCoWebsite(bagUrl, this.MapUrlFile, allProps.get('openWebsiteAllowApi') as boolean | undefined, allProps.get('openWebsitePolicy') as string | undefined);
                 layoutManager.removeActionButton('openWebsite', this.userInputManager);
             }
         });
