@@ -17,12 +17,12 @@ export class ReportMenu extends Phaser.GameObjects.DOMElement {
         this.anonymous = anonymous;
         this.createFromCache(gameReportKey);
 
-        if (this.anonymous) {
-            const divToHide = this.getChildByID('reportSection') as HTMLElement;
-            divToHide.hidden = true;
-            const textToHide = this.getChildByID('askActionP') as HTMLElement;
-            textToHide.hidden = true;
-        }
+        //if (this.anonymous) {
+        //    const divToHide = this.getChildByID('reportSection') as HTMLElement;
+        //    divToHide.hidden = true;
+        //    const textToHide = this.getChildByID('askActionP') as HTMLElement;
+        //    textToHide.hidden = true;
+        //}
         
         scene.add.existing(this);
         MenuScene.revealMenusAfterInit(this, gameReportKey);

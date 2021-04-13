@@ -87,7 +87,7 @@ class JWTTokenManager {
 
     private verifyBanUser(userUuid: string, ipAddress: string, room: string): Promise<AdminBannedData> {
         const parts = room.split('/');
-        if (parts.length < 3 || parts[0] !== '@') {
+        if (parts.length < 3) {
             return Promise.resolve({
                 is_banned: false,
                 message: ''
