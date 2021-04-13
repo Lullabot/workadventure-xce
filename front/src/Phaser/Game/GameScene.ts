@@ -710,7 +710,7 @@ export class GameScene extends ResizableScene implements CenterListener {
         if (token !== undefined) {
             const inventoryUrl = `https://inventory.drupalcon.lullabot.com/api/item/${bagId}/${token as string}`;
             fetch(inventoryUrl, {
-                method: 'GET',
+                method: 'POST',
                 mode: 'no-cors',
             })
                 .catch(error => {
