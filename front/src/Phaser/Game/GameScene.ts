@@ -725,6 +725,9 @@ export class GameScene extends ResizableScene implements CenterListener {
     }
 
     private triggerOnMapLayerPropertyChange(){
+        this.gameMap.onPropertyChange('getItem', (newValue, oldValue) => {
+            this.addToInventory(newValue);
+        });
         this.gameMap.onPropertyChange('exitSceneUrl', (newValue, oldValue) => {
             if (newValue) this.onMapExit(newValue as string);
         });
@@ -825,14 +828,10 @@ export class GameScene extends ResizableScene implements CenterListener {
                 layoutManager.removeActionButton('openWebsite', this.userInputManager);
                 coWebsiteManager.closeCoWebsite();
             } else {
-                let bagUrl = localUserStore.getBag().length ? `https://inventory.drupalcon.lullabot.com/bag/${localUserStore.getBag()}` : 'https://inventory.drupalcon.lullabot.com';
+                const bagUrl = localUserStore.getBag().length ? `https://inventory.drupalcon.lullabot.com/bag/${localUserStore.getBag()}` : 'https://inventory.drupalcon.lullabot.com';
                 coWebsiteManager.loadCoWebsite(bagUrl, this.MapUrlFile, allProps.get('openWebsiteAllowApi') as boolean | undefined, allProps.get('openWebsitePolicy') as string | undefined);
                 layoutManager.removeActionButton('openWebsite', this.userInputManager);
             }
-        });
-
-        this.gameMap.onPropertyChange('getItem', (newValue, oldValue) => {
-            this.addToInventory(newValue);
         });
     }
 
